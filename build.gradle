@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id "org.sonarqube" version "4.4.1.3373"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "sonartest" // 원하는 이름으로 설정 가능
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "sqa_5438a3a676bcbfc1c77f09664e358a4da8b007bc" // SonarQube에서 발급한 토큰
+    }
+}
