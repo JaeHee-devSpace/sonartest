@@ -1,7 +1,7 @@
-mport org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Method; // 🔐 Security Hotspot (Reflection 사용)
+import java.lang.reflect.Method; // Security Hotspot (Reflection 사용)
 
 import static org.junit.jupiter.api.Assertions.*;
 
