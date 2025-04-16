@@ -1,52 +1,51 @@
-version: '3'
+version: '3'  # Docker Compose 파일 버전
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
-    container_name: jenkins
+    image: jenkins/jenkins:lts  # Jenkins 최신 LTS 이미지 사용
+    container_name: jenkins     # 컨테이너 이름 지정
     ports:
-      - "8080:8080"
+      - "8080:8080"              # 호스트의 8080 포트를 컨테이너의 8080 포트에 매핑
     volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
+      - jenkins_home:/var/jenkins_home         # Jenkins 데이터 영속화를 위한 볼륨
+      - /var/run/docker.sock:/var/run/docker.sock  # Jenkins에서 Docker 실행 가능하게 설정
     networks:
-      - ci_net
+      - ci_net                 # 공유 네트워크에 연결
 
   sonarqube:
-    image: sonarqube:community
-    container_name: sonarqube
+    image: sonarqube:community   # SonarQube Community Edition 이미지
+    container_name: sonarqube    # 컨테이너 이름 지정
     ports:
-      - "9000:9000"
+      - "9000:9000"               # 호스트의 9000 포트를 SonarQube에 매핑
     environment:
-      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
-      - SONAR_JDBC_USERNAME=sonar
-      - SONAR_JDBC_PASSWORD=sonar
+      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube  # DB 연결 설정
+      - SONAR_JDBC_USERNAME=sonar                            # DB 사용자 이름
+      - SONAR_JDBC_PASSWORD=sonar                            # DB 비밀번호
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_data:/opt/sonarqube/data         # SonarQube 데이터 디렉토리
+      - sonarqube_extensions:/opt/sonarqube/extensions  # 플러그인 등 확장 디렉토리
     depends_on:
-      - db
+      - db                                          # DB가 먼저 시작되어야 함
     networks:
-      - ci_net
+      - ci_net                                      # 공유 네트워크에 연결
 
   db:
-    image: postgres:13
-    container_name: postgres
+    image: postgres:13                # PostgreSQL 13 이미지
+    container_name: postgres          # 컨테이너 이름 지정
     environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonarqube
+      POSTGRES_USER: sonar            # DB 사용자 이름
+      POSTGRES_PASSWORD: sonar        # DB 비밀번호
+      POSTGRES_DB: sonarqube          # 사용할 DB 이름
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data  # DB 데이터 영속화를 위한 볼륨
     networks:
-      - ci_net
+      - ci_net                         # 공유 네트워크에 연결
 
 volumes:
-  jenkins_home:
-  sonarqube_data:
-  sonarqube_extensions:
-  postgres_data:
+  jenkins_home:          # Jenkins용 볼륨
+  sonarqube_data:        # SonarQube 데이터용 볼륨
+  sonarqube_extensions:  # SonarQube 플러그인/확장용 볼륨
+  postgres_data:         # PostgreSQL 데이터용 볼륨
 
 networks:
-  ci_net:
-
+  ci_net:                # 모든 서비스가 공유하는 네트워크 정의
