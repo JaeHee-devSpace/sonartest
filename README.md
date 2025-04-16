@@ -181,4 +181,9 @@
 |시작 속도|느림 (설치 필요)|빠름 (즉시 시작 가능)|
 |GitHub 등과 통합|수동 설정|자동 연동 제공|
 
+## SonarQube 아키텍처
+
+![image](https://github.com/user-attachments/assets/e4c16b6b-49d0-4d59-b230-f4e05bca892a)
+
+
 
