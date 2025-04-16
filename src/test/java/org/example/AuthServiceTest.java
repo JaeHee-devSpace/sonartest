@@ -61,10 +61,4 @@ class AuthServiceTest {
         String message = "This is duplicated logic";
         System.out.println(message);
     }
-    @Test
-    void duplicatedLogicExample3() {
-        // 🌀 위 테스트와 거의 동일한 로직 → 중복 코드로 감지됨
-        String message = "This is duplicated logic";
-        System.out.println(message);
-    }
 }
