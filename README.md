@@ -194,11 +194,96 @@
 
 - SonarCloud: 빠르게 시작하고 GitHub 등 클라우드와 연동하여 품질 관리 자동화하고 싶을 때
 
+---
+## 4. Quality Gate
+
+✅ 기본 설정(Default SonarQube Quality Gate 기준)
+| 기준 항목               | 조건                                 |
+|--------------------------|--------------------------------------|
+| New Bugs                 | 0개                                  |
+| New Vulnerabilities      | 0개                                  |
+| New Code Smells          | 허용 가능 (단, 다른 기준과 종합 평가됨) |
+| New Security Hotspots    | Reviewed (검토 완료) 상태여야 함         |
+| New Coverage             | 80% 이상 (테스트 커버리지)               |
+| New Duplications         | 3% 이하                               |
+| Maintainability Rating   | A ~ B 등급                           |
+| Reliability Rating       | A ~ B 등급                           |
+| Security Rating          | A ~ B 등급                           |
+
+🎯 위 조건 중 하나라도 벗어나면, FAIL!
+
+
+⚙️ Qualiy Gate 사용자 정의
+SonarQube UI에서 [Quality Gates] > [Create or Edit] 메뉴에서 원하는 기준으로 직접 설정 가능
+
+![image](https://github.com/user-attachments/assets/387d9ee1-71c4-4c88-9d59-bfc0f80ee68a)
+
+예: Duplications 5%까지 허용, New Bugs 1개까진 허용 등.
+
+
+
+✅ 분석 등급의 의미
+| 등급 | 의미              |
+|------|-------------------|
+| A    | 매우 우수 (문제 거의 없음) |
+| B    | 양호               |
+| C    | 주의 필요          |
+| D    | 개선 필요          |
+| E    | 매우 심각          |
+
+
+
+✅ 등급 기준 (Maintainability, Reliability, Security)
+| 등급 항목        | 분석 대상                                |
+|------------------|-------------------------------------------|
+| Maintainability  | Code Smells → 유지보수 용이성 평가        |
+| Reliability      | Bugs → 신뢰성 / 오류 가능성 평가           |
+| Security         | Vulnerabilities → 보안성 평가              |
+
+
+
+✅ 등급 적용 여부 및 이유
+| 항목                | 등급 적용 | 이유                                                                 |
+|---------------------|-----------|----------------------------------------------------------------------|
+| Bugs                | ✅ 적용됨  | 오류 발생 가능성 → 신뢰성(Reliability) 등급으로 반영                   |
+| Vulnerabilities     | ✅ 적용됨  | 보안 관련 → 보안성(Security) 등급으로 반영                             |
+| Code Smells         | ✅ 적용됨  | 유지보수 난이도 → 유지보수성(Maintainability) 등급으로 반영            |
+| Coverage            | ❌ 미적용  | 퍼센트로 평가 → 명확한 수치 기준으로만 판단됨                          |
+| Duplications        | ❌ 미적용  | 퍼센트 기준으로 평가 → 기준 초과 시 Fail, 등급은 없음                  |
+| Security Hotspots   | ❌ 미적용  | 수동 검토 필요 → 실제 취약점 여부는 개발자가 판단해야 함               |
 
 
 ---
+## 5. 민감 정보 판단 기준 
 
-## 4. SonarQube 아키텍처
+🔸 변수명 기준
+SonarQube는 변수명에 다음 키워드가 포함되면 민감 정보일 가능성이 있다고 판단:
+```
+- password
+- passwd
+- pwd
+- secret
+- token
+- api_key
+- auth
+- credential
+- private_key
+```
+
+🔸 값 패턴 기준
+SonarQube는 값이 특정 정규식에 매칭될 경우에도 민감 정보로 감지:
+
+Base64 문자열 ("dXNlcjpwYXNzd29yZA==")
+
+AWS 키 패턴 (AKIA...)
+
+API 키 형식 (sk-..., ghp_...)
+
+OAuth 토큰 등
+
+---
+
+## 6. SonarQube 아키텍처
 
 ![image](https://github.com/user-attachments/assets/e4c16b6b-49d0-4d59-b230-f4e05bca892a)
 
@@ -220,7 +305,7 @@ Sonarqube 자동화 동작 과정
 
 ---
 
-## 5. 실습
+## 7. 실습
 
 ### 환경설정
 
@@ -290,7 +375,7 @@ docker-compose up -d
 
 
 
-### 3. Jenkins-Github 연동 ✅
+### 4. Jenkins-Github 연동 ✅
 *1. Github Token 생성*
 ![image](https://github.com/user-attachments/assets/e41ae67c-1ca6-4638-af1a-acba8dd872f2)
 1 **"Generate new token (classic)"** 클릭
@@ -322,12 +407,12 @@ ngrok http 8080
 ![image](https://github.com/user-attachments/assets/a3cbd7ef-66bf-45df-a9e8-136a56d0bc70)
 - Payload URL : ngrok으로 터널링된 URL/github-webhook/
 
-### 4. Jenkins에 등록 ✅
+### 5. Jenkins에 등록 ✅
 - Jenkins에 토큰 등록 (Credentials)
 ![image](https://github.com/user-attachments/assets/3d84dc73-56dc-47af-8300-01d2b970b6ff)
 
 
-### 5. Jenkins pipeline 구성
+### 6. Jenkins pipeline 구성 ✅
 *1. Pipeline 생성*
 ![image](https://github.com/user-attachments/assets/09989279-d7ee-483f-86f1-a9d20c5e787b)
 
