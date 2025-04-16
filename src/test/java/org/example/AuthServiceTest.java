@@ -61,4 +61,22 @@ class AuthServiceTest {
         String message = "This is duplicated logic";
         System.out.println(message);
     }
+    @Test
+    void duplicate1() {
+        String a = "This is duplicated logic";
+        System.out.println(a);
+    }
+
+    @Test
+    void duplicate2() {
+        String a = "This is duplicated logic";
+        System.out.println(a);
+    }
+
+    @Test
+    void duplicate3() {
+        String a = "This is duplicated logic";
+        System.out.println(a);
+    }
+
 }
