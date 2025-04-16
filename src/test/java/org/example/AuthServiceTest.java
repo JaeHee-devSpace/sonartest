@@ -63,20 +63,29 @@ class AuthServiceTest {
     }
     @Test
     void duplicate1() {
-        String a = "This is duplicated logic";
-        System.out.println(a);
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
     }
 
     @Test
     void duplicate2() {
-        String a = "This is duplicated logic";
-        System.out.println(a);
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Duplicated block " + i);
+        }
     }
 
-    @Test
-    void duplicate3() {
-        String a = "This is duplicated logic";
-        System.out.println(a);
-    }
 
 }
