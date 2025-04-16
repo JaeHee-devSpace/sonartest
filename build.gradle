@@ -39,7 +39,7 @@ sonarqube {
         //sonarqube 연동
         property "sonar.projectKey", "sonartest"
         property "sonar.host.url", "http://localhost:9000"
-        property "sonar.login", "sqa_5438a3a676bcbfc1c77f09664e358a4da8b007bc"
+        property "sonar.login", "sqa_5438a3a676bcbfc1c77f09664e358a4da8b007bc" //SonarQube에서 발급한 Token 값
         //커버리지 리포트 경로 추가
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
     }
